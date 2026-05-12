@@ -41,20 +41,42 @@ Microservicio Spring Boot para la gestión de ventas. Permite registrar, consult
    4. **Accede a la documentación Swagger:**
    - [http://localhost:8088/swagger-ui.html](http://localhost:8088/swagger-ui.html)
 
-## Endpoints principales
+## Ejecución con Docker y Docker Compose
 
-- `GET /api/ventas` — Listar todas las ventas
-- `GET /api/ventas/{id}` — Obtener una venta por ID
-- `POST /api/ventas` — Crear una nueva venta
-- `PUT /api/ventas/{id}` — Actualizar una venta existente
-- `DELETE /api/ventas/{id}` — Eliminar una venta
+### 1. Build de la imagen Docker
 
-## Variables de configuración
+Desde la carpeta `Springboot-API-REST`:
 
-Edita el archivo `application.properties` para ajustar la conexión a la base de datos y el puerto del servidor.
+```sh
+docker build -t ventas-backend .
+```
 
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/ventas_db?useSSL=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true
-spring.datasource.username=ventas_user
-spring.datasource.password=tu_contraseña
-server.port=8088
+### 2. Levantar servicios con Docker Compose
+
+Desde la misma carpeta:
+
+```sh
+docker compose up -d
+```
+Esto iniciará el backend y una base de datos MySQL lista para usar.
+
+- El backend estará disponible en: [http://localhost:8088](http://localhost:8088)
+- La base de datos MySQL estará en el puerto 3308 (usuario: ventas_user, password: monsalve1974, base: ventas_db)
+
+### 3. Ver logs
+
+```sh
+docker compose logs -f
+```
+
+### 4. Detener y limpiar contenedores
+
+```sh
+docker compose down
+```
+
+---
+
+> Si tienes problemas con la conexión a la base de datos, asegúrate de que ningún otro MySQL local esté usando el puerto 3308.
+
+---
