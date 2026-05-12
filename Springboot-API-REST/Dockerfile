@@ -1,11 +1,11 @@
 # Etapa de build
-FROM eclipse-temurin:17-jdk AS builder
+FROM eclipse-temurin:21-jdk AS builder
 WORKDIR /app
 COPY . .
 RUN ./mvnw clean package -DskipTests
 
 # Etapa de producción
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:21-jre
 WORKDIR /app
 COPY --from=builder /app/target/Springboot-API-REST-0.0.1-SNAPSHOT.jar app.jar
 
