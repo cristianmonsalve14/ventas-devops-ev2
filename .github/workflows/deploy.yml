@@ -35,15 +35,6 @@ jobs:
           push: true
           tags: ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
-      - name: Copy docker-compose.yml to EC2
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ env.EC2_HOST }}
-          username: ${{ env.EC2_USER }}
-          key: ${{ env.EC2_KEY }}
-          source: "docker-compose.yml"
-          target: "~/app"
-
       - name: Deploy on EC2 via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -51,6 +42,11 @@ jobs:
           username: ${{ env.EC2_USER }}
           key: ${{ env.EC2_KEY }}
           script: |
-            cd ~/app
-            docker compose pull ventas-backend
-            docker compose up -d ventas-backend
+            docker pull ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+            docker stop ventas-backend || true
+            docker rm ventas-backend || true
+            docker run -d --name ventas-backend -p 8088:8088 \
+              -e SPRING_DATASOURCE_URL=\"${{ secrets.SPRING_DATASOURCE_URL }}\" \
+              -e SPRING_DATASOURCE_USERNAME=\"${{ secrets.SPRING_DATASOURCE_USERNAME }}\" \
+              -e SPRING_DATASOURCE_PASSWORD=\"${{ secrets.SPRING_DATASOURCE_PASSWORD }}\" \
+              ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
