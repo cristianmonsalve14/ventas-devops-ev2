@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  ventas-backend:
+    build: .
+    ports:
+      - "8088:8088"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://ventas-mysql:3306/ventas_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=ventas_user
+      - SPRING_DATASOURCE_PASSWORD=monsalve1974
+    depends_on:
+      - ventas-mysql
+  ventas-mysql:
+    image: mysql:8.0
+    container_name: ventas-mysql
+    environment:
+      MYSQL_DATABASE: ventas_db
+      MYSQL_USER: ventas_user
+      MYSQL_PASSWORD: monsalve1974
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - ventas_mysql_data:/var/lib/mysql
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  ventas_mysql_data:
