@@ -3,7 +3,7 @@ name: CI/CD Deploy Backend Ventas
 on:
   push:
     branches:
-      - deploy
+      - develop-ventas
 
 jobs:
   build-and-deploy:
