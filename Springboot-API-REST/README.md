@@ -52,8 +52,9 @@ Debes definir las variables de entorno para la conexión a la base de datos al e
 - Asegúrate de que el puerto 3306 esté libre antes de levantar los servicios.
 
 ## Despliegue y DevOps
-- Incluye Dockerfile y docker-compose.yml listos para producción.
-- Puedes usar este repositorio en pipelines CI/CD para construir y desplegar automáticamente.
+- Incluye Dockerfile con multi-stage build listo para producción.
+- Configurado para despliegue automatizado mediante GitHub Actions.
+- Puedes usar este repositorio en pipelines CI/CD para construir y desplegar automáticamente en AWS EC2.
 
 ---
 

@@ -52,4 +52,4 @@ Desde la carpeta `Springboot-API-REST`:
 docker build -t ventas-backend .
 ```
 
-Luego, utiliza el archivo docker-compose.yml unificado en la raíz del proyecto para levantar todos los servicios.
+Luego, ejecuta el contenedor con las variables de entorno necesarias para conectarse a la base de datos.
